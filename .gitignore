@@ -1,0 +1,12 @@
+# vscode/system files
+.vscode/
+.DS_Store
+
+# compiled program
+main
+
+# mathematica/excel files
+*.m
+*.mlx
+*.xlsx
+*.xls

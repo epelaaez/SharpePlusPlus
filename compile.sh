@@ -1,0 +1,1 @@
+g++ -std=c++20 src/StockData.cpp -o main src/main.cpp
