@@ -1,6 +1,3 @@
-#ifndef StockData_cpp
-#define StockData_cpp
-
 // Standard includes.
 #include <iostream>
 #include <fstream>
@@ -54,15 +51,18 @@ void StockData::printData() const {
     }
 }
 
-double StockData::computeSharpe() {
-    double sum = std::accumulate(std::begin(excessPeriodReturn), std::end(excessPeriodReturn), 0.0);
-    double m =  sum / excessPeriodReturn.size();
-    double stdev = 0.0;
-    std::for_each(std::begin(excessPeriodReturn), std::end(excessPeriodReturn), [&](const double d) {
-        stdev += (d - m) * (d - m);
-    });
-    stdev = sqrt(stdev / excessPeriodReturn.size());
-    return sqrt(252 / frequency) * (m / stdev);
+std::vector<double> StockData::getExcessPeriodReturn() {
+    return excessPeriodReturn;
 }
 
-#endif
+double StockData::getExcessPeriodReturn(int time) {
+    if (time >= 0 && time < excessPeriodReturn.size()) {
+        return excessPeriodReturn[time];
+    } else {
+        throw std::out_of_range("Time provided is out of range");
+    }
+}
+
+int StockData::getNumberOfEntries() {
+    return date.size();
+}

@@ -21,7 +21,7 @@ class StockData {
         std::vector<double> excessPeriodReturn; 
 
         // Parameters
-        float frequency; 
+        float frequency;
         float riskFreeRate; // annualized risk-free rate
 
     public:
@@ -31,8 +31,13 @@ class StockData {
         // Destructor
         ~StockData() = default;
 
+        // Getter functions
+        std::vector<double> getExcessPeriodReturn();
+        double getExcessPeriodReturn(int time);
+        int getNumberOfEntries();
+
+        // Print function
         void printData() const;
-        double computeSharpe();
 };
 
 #endif
