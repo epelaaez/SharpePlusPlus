@@ -3,18 +3,32 @@
 
 class Strategy {
     public:
-        // Constructor
-        Strategy(float frequency) : frequency(frequency) {};
+        /**
+         * Constructor for Strategy class.
+         * 
+         * @param nt The number of trading periods in a year for the given frequency.
+         */
+        Strategy(float nt) : nt(nt) {};
 
-        // Destructor
+        /**
+         * Destructor for Strategy class.
+         */
         ~Strategy() = default;
 
         virtual double getPeriodExcessReturn(int time) = 0;
+
+        /**
+         * Compute the Sharpe ratio for the implemented strategy.
+         * 
+         * @param start The starting period for the Sharpe ratio calculation.
+         * @param end The ending period for the Sharpe ratio calculation.
+         * @return The Sharpe ratio for the implemented strategy.
+         */
         double computeSharpe(int start, int end);
 
-    private:
+    protected:
         // Parameters
-        float frequency;
+        float nt;
 };
 
 #endif

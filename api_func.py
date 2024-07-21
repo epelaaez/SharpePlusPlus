@@ -13,8 +13,7 @@ def get_stock_data(
         function="TIME_SERIES_INTRADAY", 
         outputsize="full",
         adjusted="true",
-        interval="1min",
-
+        interval="60min"
     ):
     """
     Fetch stock data from Alpha Vantage API.

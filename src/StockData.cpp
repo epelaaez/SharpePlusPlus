@@ -7,8 +7,8 @@
 
 #include "StockData.hpp"
 
-StockData::StockData(const std::string& filename, float frequency, float riskFreeRate) 
-    : frequency(frequency), riskFreeRate(riskFreeRate) 
+StockData::StockData(const std::string& filename, float nt, float riskFreeRate) 
+    : nt(nt), riskFreeRate(riskFreeRate) 
 {
     std::ifstream file(filename);
     std::string line;
@@ -26,18 +26,17 @@ StockData::StockData(const std::string& filename, float frequency, float riskFre
         }
 
         // Store values in vectors
-        date.push_back(row[0]);
+        timestamp.push_back(row[0]);
         open.push_back(stod(row[1]));
         high.push_back(stod(row[2]));
         low.push_back(stod(row[3]));
         close.push_back(stod(row[4]));
-        adjClose.push_back(stod(row[5]));
-        volume.push_back(stod(row[6]));
+        volume.push_back(stod(row[5]));
 
         // Compute period return and excess period return, with assumed risk-free rate
-        if (date.size() > 1) {
-            periodReturn.push_back((adjClose.back() - adjClose[adjClose.size()-2]) / adjClose[adjClose.size()-2]);
-            excessPeriodReturn.push_back(periodReturn.back() - (riskFreeRate / (252 / frequency)));
+        if (timestamp.size() > 1) {
+            periodReturn.push_back((close.back() - close[close.size()-2]) / close[close.size()-2]);
+            excessPeriodReturn.push_back(periodReturn.back() - (riskFreeRate / nt));
         } else {
             periodReturn.push_back(0.0);
             excessPeriodReturn.push_back(0.0);
@@ -46,8 +45,8 @@ StockData::StockData(const std::string& filename, float frequency, float riskFre
 }
 
 void StockData::printData() const {
-    for (int i = 0; i < date.size(); i++) {
-        std::cout << date[i] << " " << open[i] << " " << high[i] << " " << low[i] << " " << close[i] << " " << adjClose[i] << " " << volume[i] << " " << periodReturn[i] << " " << excessPeriodReturn[i] << std::endl;
+    for (int i = 0; i < timestamp.size(); i++) {
+        std::cout << timestamp[i] << " " << open[i] << " " << high[i] << " " << low[i] << " " << close[i] << " " << close[i] << " " << volume[i] << " " << periodReturn[i] << " " << excessPeriodReturn[i] << std::endl;
     }
 }
 
@@ -63,6 +62,22 @@ double StockData::getExcessPeriodReturn(int time) {
     }
 }
 
+double StockData::getClose(int time) {
+    if (time >= 0 && time < close.size()) {
+        return close[time];
+    } else {
+        throw std::out_of_range("Time provided is out of range");
+    }
+}
+
+double StockData::getOpen(int time) {
+    if (time >= 0 && time < open.size()) {
+        return open[time];
+    } else {
+        throw std::out_of_range("Time provided is out of range");
+    }
+}
+
 int StockData::getNumberOfEntries() {
-    return date.size();
+    return timestamp.size();
 }
