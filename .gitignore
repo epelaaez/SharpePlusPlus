@@ -10,3 +10,9 @@ main
 *.mlx
 *.xlsx
 *.xls
+
+# api key
+api.txt
+
+# python
+__pycache__/
